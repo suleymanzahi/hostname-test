@@ -3,13 +3,13 @@
 ### Containers
 - I would use a smaller or hardened minimal image, such as Docker Hardened Image or distroless images from Google. They reduce attack surfaces by making the images much smaller: The downside is that they become harder to debug, so it would require proper logging or other tools.
 
-- Use a tool to scan code and images for vulnerabilities
+- Use a tool to scan code and images for vulnerabilities, as well as container signing to validate the container image signature
 
-- I would experiment with more secure container runtimes such as gVisor. It forbids many syscalls and has stricter policies, so it would be interesting to check out. Downside is that it may slow down the application, so it would have to be investigated. 
+- I would experiment with more secure container runtimes such as gVisor. It forbids many syscalls and has stricter policies, so it would be interesting to check out. Downside is that it may slow down the application, so it would have to be investigated. In the same vein, there are also tools like AppArmor and Seccomp that limit capabilities (syscalls) and further harden the app.
 
 - Implement HTTPS and TLS
 
-- Implement logging, with projecs such as Grafana, Prometheus
+- Implement logging and tracing, with projecs such as Grafana, Prometheus
 
 - Implement dedicated endpoints for live and readiness probes in the code such /healthz and /live
 

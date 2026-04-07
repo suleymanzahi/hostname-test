@@ -29,6 +29,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
+          privileged: false
         ports:
         - containerPort: 3000
         resources:

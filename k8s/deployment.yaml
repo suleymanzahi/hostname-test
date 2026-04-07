@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostname-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hostname-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: hostname-app
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+      containers:
+      - name: hostname-app-image
+        image: suleymanz/hostname:v1
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: "256Mi"  
+            cpu: "200m"       
+          requests:
+            memory: "128Mi"  
+            cpu: "100m"      
+        livenessProbe:
+          httpGet:
+            path: /                
+            port: 3000               
+          initialDelaySeconds: 10 
+          periodSeconds: 5        
+        readinessProbe:
+          httpGet:
+            path: /                
+            port: 3000               
+          initialDelaySeconds: 10   
+          periodSeconds: 5         
